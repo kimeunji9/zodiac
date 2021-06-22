@@ -26,7 +26,7 @@ export default createStore({
       if (state.tabList.length === 0) {
         return state.tabList.push(payload)
       } else {
-        // 탭에 중복으로 들어가지 않도록
+        // 탭이 중복으로 들어가지 않도록
         const duplicatedPath = state.tabList.some((item: any) => {
           return item.path === payload.path
         })
@@ -38,7 +38,7 @@ export default createStore({
         // 기사작성 탭이 선택되어있을 경우 해제
         state.tabList.forEach((item: any) => {
           if (item.name === 'Write') {
-            item.meta.tabActive = false
+            item.meta.active = false
           }
         })
       }
@@ -82,13 +82,13 @@ export default createStore({
       }
     },
     add_write_tab(state, payload: any) {
-      payload.meta.tabActive = true
+      payload.meta.active = true
       state.tabList.push(payload)
 
       // 마지막으로 클릭한 기사작성 메뉴 탭만 활성화되도록
       state.tabList.forEach((menu: any) => {
         if (payload.path !== menu.path) {
-          menu.meta.tabActive = false
+          menu.meta.active = false
         }
       })
     },

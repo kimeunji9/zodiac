@@ -72,7 +72,7 @@
               text-sm
               cursor-pointer
             "
-            :style="subMenu.meta.menuActive ? toggleActiveMenuObj : ''"
+            :style="subMenu.meta.active ? toggleActiveMenuObj : ''"
             @click="addArticle($event, subMenu)"
           >
             {{ subMenu.meta.title }}
@@ -132,7 +132,18 @@ export default {
     this.totalMenuList = [...this.menuList, ...this.totalSubMenu]
   },
   computed: {},
-  watch: {},
+  watch: {
+    // 기사작성 탭이 선택되었을 경우, 기사작성 메뉴 활성화시키기
+    $route(to) {
+      this.totalMenuList.forEach(item => {
+        if (item.name === to.name) {
+          item.meta.active = true
+        } else {
+          item.meta.active = false
+        }
+      })
+    }
+  },
   methods: {
     addTab(menu) {
       if (menu.children) return
@@ -143,17 +154,12 @@ export default {
     toggleActiveMenu(menu) {
       this.totalMenuList.forEach((item) => {
         if (item.name === menu.name) {
-          if (item.name === 'Write') {
-            return (menu.meta.menuActive = true)
-          }
           menu.meta.active = true
         } else {
-          if (item.name === 'Write') {
-            return (item.meta.menuActive = false)
-          }
           item.meta.active = false
         }
       })
+      console.log('menu', menu)
     },
     clickMenu(e, menu) {
       this.toggleActiveMenu(menu)

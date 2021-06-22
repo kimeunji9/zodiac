@@ -32,8 +32,7 @@ export const routerList = [
             props: true,
             meta: {
               parent: 'article',
-              tabActive: false,
-              menuActive: false,
+              active: false,
               title: '기사작성',
             },
           },

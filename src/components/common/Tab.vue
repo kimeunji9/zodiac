@@ -16,7 +16,7 @@
         border border-blue-400
         cursor-pointer
       "
-      :style="item.meta.active || item.meta.tabActive ? toggleActiveObj : ''"
+      :style="item.meta.active ? toggleActiveObj : ''"
       @click="selectedTab(item)"
     >
       {{
@@ -64,7 +64,9 @@ export default {
       tabList: this.$store.state.tabList
     }
   },
-  watch: {},
+  watch: {
+    // ANS 클릭시 선택된 탭 비활성화
+  },
   methods: {
     deleteTab(event, idx, selectedTap) {
       // x 버튼만 클릭되도록
@@ -122,17 +124,8 @@ export default {
       // tab 활성화 색깔 토글
       this.tabList.forEach((item) => {
         if (item.path === tab.path) {
-          if (item.name === 'Write') {
-            tab.meta.tabActive = true
-            tab.meta.menuActive = true
-            return
-          }
           tab.meta.active = true
         } else {
-          if (item.name === 'Write') {
-            item.meta.tabActive = false
-            item.meta.menuActive = false
-          }
           item.meta.active = false
         }
       })
