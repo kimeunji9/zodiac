@@ -1,11 +1,200 @@
-<template lang="">
-  <div></div>
+<template>
+  <div>
+    <div class="pt-2 h-screen border rounded-lg">
+      <p
+        class="p-4 mb-3 font-bold border-b border-gray-600 cursor-pointer"
+        @click="$router.push('/')"
+      >
+        ANS
+      </p>
+
+      <!-- 상위메뉴 -->
+      <div v-for="parentMenu in menuList" :key="parentMenu.path">
+        <router-link
+          v-if="!parentMenu.path.includes('write')"
+          :to="`/${parentMenu.path}`"
+          :style="
+            !parentMenu.children && parentMenu.meta.active
+              ? toggleActiveMenuObj
+              : ''
+          "
+          class="
+            py-4
+            cursor-pointer
+            hover:bg-blue-50
+            text-sm
+            pl-5
+            rounded
+            block
+          "
+          @click="clickMenu($event, parentMenu)"
+          >{{ parentMenu.meta.title }}
+        </router-link>
+
+        <!-- 하위메뉴 -->
+        <div v-for="subMenu in parentMenu.children" :key="subMenu.path">
+          <router-link
+            v-if="
+              !subMenu.path.includes('write') &&
+              parentMenu.path === subMenu.meta.parent
+            "
+            :to="`/${parentMenu.path}/${subMenu.path}`"
+            class="
+              list-none
+              block
+              py-4
+              pl-8
+              hover:bg-blue-50
+              rounded
+              text-sm
+              cursor-pointer
+            "
+            :style="subMenu.meta.active ? toggleActiveMenuObj : ''"
+            @click="clickMenu($event, subMenu)"
+          >
+            {{ subMenu.meta.title }}
+          </router-link>
+
+          <!-- 기사작성 -->
+          <!-- :to="{ name: 'write', params: { id: count } }" -->
+          <div
+            v-if="
+              subMenu.path.includes('write') &&
+              parentMenu.path === subMenu.meta.parent
+            "
+            class="
+              list-none
+              block
+              py-4
+              pl-8
+              hover:bg-blue-50
+              rounded
+              text-sm
+              cursor-pointer
+            "
+            :style="subMenu.meta.menuActive ? toggleActiveMenuObj : ''"
+            @click="addArticle($event, subMenu)"
+          >
+            {{ subMenu.meta.title }}
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <LogoutBtn class="mt-16 mb-4"></LogoutBtn>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
+import { routerList } from '@/router/routerList'
+import LogoutBtn from '@/components/common/LogoutButton.vue'
+import _ from 'lodash'
+
 export default {
-  data() {
-    return {}
+  name: 'MenuTree',
+  components: {
+    LogoutBtn
   },
+  data() {
+    return {
+      showChildren: false,
+      menuList: [],
+      toggleSubMenu: false,
+      totalMenuList: [],
+      totalSubMenu: [],
+      toggleActiveMenuObj: {
+        'background-color': '#ecf5ff',
+        color: '#409eff',
+        'font-weight': 'bold'
+      },
+      count: 1,
+      obj: ''
+    }
+  },
+  mounted() {
+    routerList.forEach((item) => {
+      if (item.name !== 'Login') {
+        this.menuList = item.children
+      }
+    })
+
+    this.menuList.forEach((el) => {
+      if (el.children) {
+        el.children.forEach((menu) => {
+          this.totalSubMenu.push(menu)
+        })
+      }
+    })
+
+    // 상위 메뉴와 하위 메뉴를 한 list에 담아서 선택한 메뉴만 색깔이 활성화되도록 하기 위해
+    this.totalMenuList = [...this.menuList, ...this.totalSubMenu]
+  },
+  computed: {},
+  watch: {},
+  methods: {
+    addTab(menu) {
+      if (menu.children) return
+
+      this.$store.commit('add_tab', menu)
+    },
+    // menu 활성화 토글
+    toggleActiveMenu(menu) {
+      this.totalMenuList.forEach((item) => {
+        if (item.name === menu.name) {
+          if (item.name === 'Write') {
+            return (menu.meta.menuActive = true)
+          }
+          menu.meta.active = true
+        } else {
+          if (item.name === 'Write') {
+            return (item.meta.menuActive = false)
+          }
+          item.meta.active = false
+        }
+      })
+    },
+    clickMenu(e, menu) {
+      this.toggleActiveMenu(menu)
+      this.addTab(menu)
+
+      if (!menu.children) return
+      else e.preventDefault() // children을 가진 메뉴는 탭(예로 기사 탭)이 생기지 않도록
+    },
+    addArticle(e, menu) {
+      let writeId = 1
+      const writeList = this.$store.state.writeList
+      let writeObj = {}
+
+      if (writeList.length !== 0) {
+        // writeList의 마지막 요소의 id 값에 1을 더함 (맨 마지막에 있는 값으로 id값을 올리고 내리고)
+        writeId = writeList[writeList.length - 1].id + 1
+      }
+
+      writeObj = {
+        id: writeId,
+        data: {}
+      }
+
+      // 탭이 생길때마다 생성된 탭에 해당되는 컨텐츠를 넣을 obj 만들어서 push
+      this.$store.commit('create_write_list', writeObj)
+
+      // 생성된 메뉴가 독립적으로 움직일 수 있도록
+      let obj = _.cloneDeep(menu)
+      obj.path = obj.path.replace(':id', writeId)
+
+      this.obj = obj
+
+      // 왼쪽 메뉴 활성화
+      this.toggleActiveMenu(menu)
+
+      // 탭 생성
+      this.$store.commit('add_write_tab', obj)
+
+      // 라우터 이동
+      this.$router.push({ name: 'Write', params: { id: writeId } })
+    }
+  }
 }
 </script>

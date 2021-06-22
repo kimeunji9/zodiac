@@ -1,6 +1,5 @@
 import { createStore } from "vuex";
 import { login, logout, refresh } from '@/api/auth';
-import { getCookieValue, resetCookie } from '@/utils/cookies'
 import router from '@/router/index';
 
 export default createStore({
@@ -8,17 +7,10 @@ export default createStore({
     accessToken: '',
     refreshToken: '',
     count: 1,
-    tabList: [],
-    writeList: []
+    tabList: [] as any,
+    writeList: [] as any
   },
   mutations: {
-    logout() {
-      const access_token = getCookieValue('accessToken')
-      logout({access_token })
-        .then(() => {
-          resetCookie()
-        })
-    },
     setToken(state, payload) {
       const { access_token, refresh_token, expiration_in } = payload
       const expires = new Date(parseInt(expiration_in))
@@ -35,17 +27,17 @@ export default createStore({
         return state.tabList.push(payload)
       } else {
         // 탭에 중복으로 들어가지 않도록
-        let deplicatedPath = state.tabList.some((item: any) => {
+        const duplicatedPath = state.tabList.some((item: any) => {
           return item.path === payload.path
         })
 
-        if (!deplicatedPath) {
+        if (!duplicatedPath) {
           state.tabList.push(payload)
         }
 
         // 기사작성 탭이 선택되어있을 경우 해제
         state.tabList.forEach((item: any) => {
-          if (item.name === 'write') {
+          if (item.name === 'Write') {
             item.meta.tabActive = false
           }
         })
@@ -57,13 +49,13 @@ export default createStore({
       state.tabList.splice(idx, 1)
 
       // writeList 삭제
-      state.writeList.forEach((listItem, idx) => {
+      state.writeList.forEach((listItem: any, idx: number) => {
         if (item.path.slice(-1) == listItem.id) {
           state.writeList.splice(idx, 1)
         }
       })
 
-      if (item.name === 'write') {
+      if (item.name === 'Write') {
         --state.count
       }
 
@@ -71,10 +63,10 @@ export default createStore({
       const lastIdx = state.tabList.length - 1
       const previousTab = state.tabList[lastIdx]
 
-      if (previousTab && previousTab.name === 'write') {
-        item.meta.tabActive = false;
+      if (previousTab && previousTab.name === 'Write') {
+        item.meta.tabActive = false
         previousTab.meta.tabActive = true
-        router.push({ name: 'write', params: { id: previousTab.path.slice(-1) } })
+        router.push({ name: 'Write', params: { id: previousTab.path.slice(-1) } })
 
         return
       }
@@ -86,15 +78,15 @@ export default createStore({
       }
       // 모든 탭이 닫혔을 경우 메인페이지로 이동
       else if (state.tabList.length === 0) {
-        router.push({ name: 'main' })
+        router.push({ name: 'Main' })
       }
     },
-    add_write_tab(state, payload) {
+    add_write_tab(state, payload: any) {
       payload.meta.tabActive = true
       state.tabList.push(payload)
 
       // 마지막으로 클릭한 기사작성 메뉴 탭만 활성화되도록
-      state.tabList.forEach(menu => {
+      state.tabList.forEach((menu: any) => {
         if (payload.path !== menu.path) {
           menu.meta.tabActive = false
         }
@@ -103,7 +95,7 @@ export default createStore({
     create_write_list(state, payload) {
       // id값이 중복되는 것은 덮어씌우기
       if (state.writeList.length) {
-        state.writeList.forEach((item, idx) => {
+        state.writeList.forEach((item: any, idx: number) => {
           if (item.id === payload.id) {
             state.writeList.splice(idx, 1)
           }
@@ -113,6 +105,19 @@ export default createStore({
       ++state.count
     }
   },
-  actions: {},
-  modules: {},
+  actions: {
+    login({ commit }, payload) {
+      return login(payload)
+        .then(({ data }) => {
+          commit('setToken', data)
+      })
+    },
+    setToken({ commit }, payload) {
+      return refresh(payload)
+        .then(({ data }) => {
+          commit('setToken', data)
+        })
+    },
+  },
+  modules: {}
 });

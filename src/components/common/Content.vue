@@ -1,11 +1,16 @@
-<template lang="">
-  <div></div>
+<template>
+  <div>
+    <router-view v-slot="{ Component }">
+      <keep-alive>
+        <component :is="Component" />
+      </keep-alive>
+    </router-view>
+  </div>
 </template>
 
 <script>
 export default {
-  data() {
-    return {}
-  },
+  name: 'Content',
+  components: {}
 }
 </script>

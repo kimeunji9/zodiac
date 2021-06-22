@@ -20,6 +20,9 @@
 </template>
 
 <script>
+import { resetCookie } from '@/utils/cookies'
+import { logout } from '@/api/auth'
+
 export default {
   name: 'LogoutBtn',
   data() {
@@ -27,10 +30,11 @@ export default {
   },
   methods: {
     logout() {
-      this.$store.commit('logout').then(() => {
+      logout().then(() => {
+        resetCookie()
         alert('로그아웃 되었습니다.')
 
-        this.$router.push({ name: 'login' })
+        this.$router.push({ name: 'Login' })
       })
     }
   }

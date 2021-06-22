@@ -1,9 +1,9 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
-import { menuList } from '@/router/menuList'
+import { routerList } from '@/router/routerList'
 import store from '@/store/index'
 import { getCookieValue, resetCookie } from '@/utils/cookies'
 
-const routes: Array<RouteRecordRaw> = menuList
+const routes: Array<RouteRecordRaw> = routerList
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
@@ -20,7 +20,7 @@ router.beforeEach((to, from, next) => {
     if (!cookie_ccessToken && !cookie_refreshToken) {
       alert('로그인을 해주세요.')
       resetCookie()
-      return next({ name: 'login' })
+      return next({ name: 'Login' })
     }
 
     store.dispatch('setToken', {

@@ -1,8 +1,7 @@
 <template>
   <div>
     <div class="flex">
-      <h1>main</h1>
-      <!-- Menu Bar -->
+      <!-- Menu Tree -->
       <div class="w-2/12">
         <MenuTree></MenuTree>
       </div>

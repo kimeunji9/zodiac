@@ -2,16 +2,16 @@ import { axios } from '@/api/index'
 
 const api = 'auth'
 
-function login(params: object) {
+function login(params: any) {
   return axios.post(`${api}/login`, params)
 }
 
-function refresh(params: object) {
+function refresh(params: any) {
   return axios.post(`${api}/refresh`, params)
 }
 
-function logout(params: object) {
-    return axios.delete(`${api}/logout`, params)
+function logout() {
+    return axios.delete(`${api}/logout`)
   }
 
 export {

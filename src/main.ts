@@ -4,6 +4,7 @@ import "./registerServiceWorker";
 import router from "./router";
 import store from "./store";
 import { axios } from '@/api/index';
+import "../index.css";
 
 const app = createApp(App)
 

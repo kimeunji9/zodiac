@@ -1,4 +1,4 @@
-export const menuList = [
+export const routerList = [
   {
     path: '/',
     name: 'Main',
