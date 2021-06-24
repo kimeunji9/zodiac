@@ -22,7 +22,8 @@ export const routerList = [
     props: true,
     meta: {
       active: false,
-      title: '이슈'
+      menuTitle: '이슈',
+      tabTitle: '이슈관리'
     },
   },
   {
@@ -31,7 +32,7 @@ export const routerList = [
     component: () => import('@/views/Article/Article.vue'),
     meta: {
       active: false,
-      title: '기사'
+      menuTitle: '기사'
     },
     children: [
       {
@@ -40,29 +41,29 @@ export const routerList = [
         component: () => import('@/views/Article/Write.vue'),
         props: true,
         meta: {
-          parent: 'article',
+          parent: '/article',
           active: false,
-          title: '기사작성',
+          menuTitle: '기사작성',
         },
       },
       {
-        path: '/management',
+        path: 'management',
         name: 'Management',
         component: () => import('@/views/Article/Management.vue'),
         meta: {
-          parent: 'article',
+          parent: '/article',
           active: false,
-          title: '기사관리'
+          menuTitle: '기사관리'
         }
       },
       {
-        path: '/foreign',
+        path: 'foreign',
         name: 'Foreign',
         component: () => import('@/views/Article/Foreign.vue'),
         meta: {
-          parent: 'article',
+          parent: '/article',
           active: false,
-          title: '내/외신'
+          menuTitle: '내/외신'
         }
       },
     ],
@@ -73,7 +74,7 @@ export const routerList = [
     component: () => import('@/views/CueSheet.vue'),
     meta: {
       active: false,
-      title: '큐시트'
+      menuTitle: '큐시트'
     }
   },
   {
@@ -82,7 +83,7 @@ export const routerList = [
     component: () => import('@/views/Request.vue'),
     meta: {
       active: false,
-      title: '의뢰'
+      menuTitle: '의뢰'
     },
     children: [
       {
@@ -90,9 +91,9 @@ export const routerList = [
         name: 'Test',
         component: () => import('@/views/test1.vue'),
         meta: {
-          parent: 'request',
+          parent: '/request',
           active: false,
-          title: '테스트'
+          menuTitle: '테스트'
         }
       }
     ],
@@ -103,7 +104,7 @@ export const routerList = [
     component: () => import('@/views/CGTemplate.vue'),
     meta: {
       active: false,
-      title: 'CG 템플릿'
+      menuTitle: 'CG 템플릿'
     }
   },
 ]

@@ -16,8 +16,6 @@
           </keep-alive>
         </router-view>
       </div>
-
-      app reload: {{ reload }}
     </div>
   </div>
 </template>

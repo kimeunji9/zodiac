@@ -28,7 +28,7 @@
             block
           "
           @click="clickMenu($event, parentMenu)"
-          >{{ parentMenu.meta.title }}
+          >{{ parentMenu.meta.menuTitle }}
         </router-link>
 
         <!-- 하위메뉴 -->
@@ -52,7 +52,7 @@
             :style="subMenu.meta.active ? toggleActiveMenuObj : ''"
             @click="clickMenu($event, subMenu)"
           >
-            {{ subMenu.meta.title }}
+            {{ subMenu.meta.menuTitle }}
           </router-link>
 
           <!-- 기사작성 -->
@@ -75,7 +75,7 @@
             :style="subMenu.meta.active ? toggleActiveMenuObj : ''"
             @click="addArticle($event, subMenu)"
           >
-            {{ subMenu.meta.title }}
+            {{ subMenu.meta.menuTitle }}
           </div>
         </div>
       </div>

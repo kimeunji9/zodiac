@@ -19,11 +19,7 @@
       :style="item.meta.active ? toggleActiveObj : ''"
       @click="selectedTab(item)"
     >
-      {{
-        item.name === 'Write'
-          ? item.meta.title + item.path.slice(-1)
-          : item.meta.title
-      }}
+      {{ setTabTitle(item) }}
 
       <!-- x 아이콘 -->
       <div
@@ -129,6 +125,21 @@ export default {
           item.meta.active = false
         }
       })
+    },
+    setTabTitle(tab) {
+      let tabName = ''
+
+      if (tab.name === 'Write') {
+        tabName = tab.meta.menuTitle + tab.path.slice(-1)
+      } else {
+        if (tab.meta.tabTitle) {
+          tabName = tab.meta.tabTitle
+        } else {
+          tabName = tab.meta.menuTitle
+        }
+      }
+
+      return tabName
     }
   }
 }

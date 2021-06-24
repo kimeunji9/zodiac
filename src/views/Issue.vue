@@ -1,6 +1,5 @@
 <template>
   <div>
-    reload {{ reload }}
     <div class="flex border border-blue-600 h-10 items-center">
       <div class="border">
         <div class="inline-block">일자</div>
