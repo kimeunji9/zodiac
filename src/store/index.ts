@@ -103,6 +103,13 @@ export default createStore({
       }
       state.writeList.push(payload)
       ++state.count
+    },
+    deleteWriteListItems(state, payload) {
+      state.writeList.forEach((item: any) => {
+        if (item.id === payload.id) {
+          item.data = {}
+        }
+      })
     }
   },
   actions: {

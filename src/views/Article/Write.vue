@@ -29,6 +29,7 @@ import IconList from '@/components/write/IconList'
 
 export default {
   name: 'Write',
+  props: ['reload', 'id'],
   components: {
     IconList
   },
@@ -47,6 +48,18 @@ export default {
           this.koInput = item.data.koInput
         }
       })
+    },
+    reload: function(){
+      if (this.reload) {
+        this.$store.state.writeList.forEach((item) => {
+          if (item.id == this.id) {
+            this.enInput = ''
+            this.koInput = ''
+
+            this.$store.commit('deleteWriteListItems', item)
+          }
+        })
+      }
     }
   },
   methods: {

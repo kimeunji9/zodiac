@@ -1,5 +1,6 @@
 <template>
   <div>
+    reload {{ reload }}
     <div class="flex border border-blue-600 h-10 items-center">
       <div class="border">
         <div class="inline-block">일자</div>
@@ -18,17 +19,17 @@
 <script>
 export default {
   name: 'Issue',
+  props: ['reload'],
   data() {
     return {
       test: ''
     }
   },
-  beforeRouteLeave(to, from) {
-    console.log('to', to)
-    console.log('from', from)
-
-    if (this.test) {
-      alert('작성되었음!')
+  watch: {
+    reload: function () {
+      if (this.reload) {
+        this.test = ''
+      }
     }
   }
 }

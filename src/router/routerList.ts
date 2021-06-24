@@ -11,6 +11,7 @@ export const routerList = [
         path: 'issue',
         name: 'Issue',
         component: () => import('@/views/Issue.vue'),
+        props: true,
         meta: {
           active: false,
           title: '이슈'
