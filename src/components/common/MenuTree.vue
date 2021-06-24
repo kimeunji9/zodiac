@@ -18,15 +18,7 @@
               ? toggleActiveMenuObj
               : ''
           "
-          class="
-            py-4
-            cursor-pointer
-            hover:bg-blue-50
-            text-sm
-            pl-5
-            rounded
-            block
-          "
+          class=" py-4 cursor-pointer hover:bg-blue-50 text-sm pl-5 rounded block"
           @click="clickMenu($event, parentMenu)"
           >{{ parentMenu.meta.menuTitle }}
         </router-link>
@@ -39,16 +31,7 @@
               parentMenu.path === subMenu.meta.parent
             "
             :to="`${parentMenu.path}/${subMenu.path}`"
-            class="
-              list-none
-              block
-              py-4
-              pl-8
-              hover:bg-blue-50
-              rounded
-              text-sm
-              cursor-pointer
-            "
+            class=" list-none block py-4 pl-8 hover:bg-blue-50 rounded text-sm cursor-pointer"
             :style="subMenu.meta.active ? toggleActiveMenuObj : ''"
             @click="clickMenu($event, subMenu)"
           >
@@ -56,27 +39,18 @@
           </router-link>
 
           <!-- 기사작성 -->
-          <!-- :to="{ name: 'write', params: { id: count } }" -->
-          <div
+          <router-link
             v-if="
               subMenu.path.includes('write') &&
               parentMenu.path === subMenu.meta.parent
             "
-            class="
-              list-none
-              block
-              py-4
-              pl-8
-              hover:bg-blue-50
-              rounded
-              text-sm
-              cursor-pointer
-            "
+            :to="{ name: 'Write', params: { id: count } }"
+            class="list-none block py-4 pl-8 hover:bg-blue-50 rounded text-sm cursor-pointer"
             :style="subMenu.meta.active ? toggleActiveMenuObj : ''"
             @click="addArticle($event, subMenu)"
           >
             {{ subMenu.meta.menuTitle }}
-          </div>
+          </router-link>
         </div>
       </div>
 
@@ -102,8 +76,6 @@ export default {
       showChildren: false,
       menuList: [],
       toggleSubMenu: false,
-      totalMenuList: [],
-      totalSubMenu: [],
       toggleActiveMenuObj: {
         'background-color': '#ecf5ff',
         color: '#409eff',
@@ -144,6 +116,7 @@ export default {
     // menu 활성화 토글
     toggleActiveMenu(menu) {
       this.menuList.forEach((item) => {
+        console.log('item', item)
         if (item.name === menu.name) {
           menu.meta.active = true
         } else {
@@ -190,7 +163,7 @@ export default {
       this.$store.commit('add_write_tab', obj)
 
       // 라우터 이동
-      this.$router.push({ name: 'Write', params: { id: writeId } })
+      // this.$router.push({ name: 'Write', params: { id: writeId } })
     }
   }
 }

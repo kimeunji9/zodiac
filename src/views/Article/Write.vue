@@ -50,16 +50,14 @@ export default {
       })
     },
     reload: function(){
-      if (this.reload) {
-        this.$store.state.writeList.forEach((item) => {
-          if (item.id == this.id) {
-            this.enInput = ''
-            this.koInput = ''
+      this.$store.state.writeList.forEach((item) => {
+        if (item.id == this.id) {
+          this.enInput = ''
+          this.koInput = ''
 
-            this.$store.commit('deleteWriteListItems', item)
-          }
-        })
-      }
+          this.$store.commit('deleteWriteListItems', item)
+        }
+      })
     }
   },
   methods: {

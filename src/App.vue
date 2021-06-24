@@ -50,7 +50,7 @@ export default {
           console.log('currentPath', currentPath)
           e.preventDefault()
 
-          // params를 보냄으로써 해당 컴포넌트의 데이터를 리셋시킴
+          // params(reload)를 보냄으로써 해당 컴포넌트의 데이터를 리셋시킴
           if (currentPath.value.name === 'Write') {
             this.$router.push({
               name: currentPath.value.name,
