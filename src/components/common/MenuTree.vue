@@ -12,7 +12,7 @@
       <div v-for="parentMenu in menuList" :key="parentMenu.path">
         <router-link
           v-if="!parentMenu.path.includes('write')"
-          :to="`/${parentMenu.path}`"
+          :to="`${parentMenu.path}`"
           :style="
             !parentMenu.children && parentMenu.meta.active
               ? toggleActiveMenuObj
@@ -38,7 +38,7 @@
               !subMenu.path.includes('write') &&
               parentMenu.path === subMenu.meta.parent
             "
-            :to="`/${parentMenu.path}/${subMenu.path}`"
+            :to="`${parentMenu.path}/${subMenu.path}`"
             class="
               list-none
               block
@@ -115,27 +115,18 @@ export default {
   },
   mounted() {
     routerList.forEach((item) => {
-      if (item.name !== 'Login') {
-        this.menuList = item.children
+      if (item.name !== 'Login' && item.name !== 'Main') {
+        this.menuList.push(item)
       }
     })
 
-    this.menuList.forEach((el) => {
-      if (el.children) {
-        el.children.forEach((menu) => {
-          this.totalSubMenu.push(menu)
-        })
-      }
-    })
-
-    // 상위 메뉴와 하위 메뉴를 한 list에 담아서 선택한 메뉴만 색깔이 활성화되도록 하기 위해
-    this.totalMenuList = [...this.menuList, ...this.totalSubMenu]
+    console.log('menuList', this.menuList)
   },
   computed: {},
   watch: {
     // 기사작성 탭이 선택되었을 경우, 기사작성 메뉴 활성화시키기
     $route(to) {
-      this.totalMenuList.forEach(item => {
+      this.menuList.forEach(item => {
         if (item.name === to.name) {
           item.meta.active = true
         } else {
@@ -152,7 +143,7 @@ export default {
     },
     // menu 활성화 토글
     toggleActiveMenu(menu) {
-      this.totalMenuList.forEach((item) => {
+      this.menuList.forEach((item) => {
         if (item.name === menu.name) {
           menu.meta.active = true
         } else {

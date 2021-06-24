@@ -27,9 +27,7 @@ export default {
   },
   watch: {
     reload: function () {
-      if (this.reload) {
-        this.test = ''
-      }
+      this.test = ''
     }
   }
 }
