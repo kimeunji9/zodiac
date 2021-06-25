@@ -1,21 +1,27 @@
 <template>
-  <div div class="flex">
-    <!-- Menu Tree -->
-    <div class="w-2/12">
-      <MenuTree></MenuTree>
+  <div>
+    <div v-if="$route.name !== 'Login'" div class="flex">
+      <!-- Menu Tree -->
+      <div class="w-2/12">
+        <MenuTree></MenuTree>
+      </div>
+
+      <!-- 탭 -->
+      <div class="w-full ml-2">
+        <Tab></Tab>
+
+        <div class="mt-3 ml-1">
+          <router-view v-slot="{ Component }">
+            <keep-alive>
+              <component :is="Component" />
+            </keep-alive>
+          </router-view>
+        </div>
+      </div>
     </div>
 
-    <!-- 탭 -->
-    <div class="w-full ml-2">
-      <Tab></Tab>
-
-      <div class="mt-3 ml-1">
-        <router-view v-slot="{ Component }">
-          <keep-alive>
-            <component :is="Component" />
-          </keep-alive>
-        </router-view>
-      </div>
+    <div v-if="$route.name === 'Login'">
+      <router-view></router-view>
     </div>
   </div>
 </template>
