@@ -1,5 +1,5 @@
 <template lang="">
-  <div class="h-16 border-gray-600 border-b">
+  <div class="h-16 border-b">
     <div
       v-for="(item, idx) in tabList"
       :key="idx"

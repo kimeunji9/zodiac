@@ -23,7 +23,8 @@ export const routerList = [
     meta: {
       active: false,
       menuTitle: '이슈',
-      tabTitle: '이슈관리'
+      tabTitle: '이슈관리',
+      requiresAuth: true
     },
   },
   {
@@ -32,7 +33,8 @@ export const routerList = [
     component: () => import('@/views/Article/Article.vue'),
     meta: {
       active: false,
-      menuTitle: '기사'
+      menuTitle: '기사',
+      requiresAuth: true
     },
     children: [
       {
@@ -74,7 +76,8 @@ export const routerList = [
     component: () => import('@/views/CueSheet.vue'),
     meta: {
       active: false,
-      menuTitle: '큐시트'
+      menuTitle: '큐시트',
+      requiresAuth: true
     }
   },
   {
@@ -83,7 +86,8 @@ export const routerList = [
     component: () => import('@/views/Request.vue'),
     meta: {
       active: false,
-      menuTitle: '의뢰'
+      menuTitle: '의뢰',
+      requiresAuth: true
     },
     children: [
       {
@@ -104,7 +108,8 @@ export const routerList = [
     component: () => import('@/views/CGTemplate.vue'),
     meta: {
       active: false,
-      menuTitle: 'CG 템플릿'
+      menuTitle: 'CG 템플릿',
+      requiresAuth: true
     }
   },
 ]

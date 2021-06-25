@@ -6,14 +6,15 @@
         <MenuTree></MenuTree>
       </div>
 
-      <!-- 탭 -->
       <div class="w-full ml-2">
-        <Tab></Tab>
+        <!-- 탭 -->
+        <Tab class="ml-1 mr-5"></Tab>
 
-        <div class="mt-3 ml-1">
+        <!-- 내용 -->
+        <div class="ml-1 mr-5">
           <router-view v-slot="{ Component }">
             <keep-alive>
-              <component :is="Component" />
+              <component :is="Component" :key="$route.path" />
             </keep-alive>
           </router-view>
         </div>
@@ -41,36 +42,36 @@ export default {
     }
   },
   created() {
-    const currentPath = this.$router.currentRoute
+    // const currentPath = this.$router.currentRoute
 
-    window.onkeydown = (e) => {
-      if (currentPath.value.fullPath === '/' && e.key === 'F5') {
-        return e.preventDefault()
-      }
+    // window.onkeydown = (e) => {
+    //   if (currentPath.value.fullPath === '/' && e.key === 'F5') {
+    //     return e.preventDefault()
+    //   }
 
-      if (e.key === 'F5') {
-        e.preventDefault()
-        const result = confirm('작업중인 내용이 저장되지 않을 수 있습니다.')
+    //   if (e.key === 'F5') {
+    //     e.preventDefault()
+    //     const result = confirm('작업중인 내용이 저장되지 않을 수 있습니다.')
 
-        if (result) {
-          console.log('currentPath', currentPath)
-          e.preventDefault()
+    //     if (result) {
+    //       console.log('currentPath', currentPath)
+    //       e.preventDefault()
 
-          // params(reload)를 보냄으로써 해당 컴포넌트의 데이터를 리셋시킴
-          if (currentPath.value.name === 'Write') {
-            this.$router.push({
-              name: currentPath.value.name,
-              params: { id: currentPath.value.params.id, reload: this.count++ }
-            })
-          } else {
-            this.$router.push({
-              name: currentPath.value.name,
-              params: { reload: this.count++ }
-            })
-          }
-        }
-      }
-    }
+    //       // params(reload)를 보냄으로써 해당 컴포넌트의 데이터를 리셋시킴
+    //       if (currentPath.value.name === 'Write') {
+    //         this.$router.push({
+    //           name: currentPath.value.name,
+    //           params: { id: currentPath.value.params.id, reload: this.count++ }
+    //         })
+    //       } else {
+    //         this.$router.push({
+    //           name: currentPath.value.name,
+    //           params: { reload: this.count++ }
+    //         })
+    //       }
+    //     }
+    //   }
+    // }
   },
   methods: {
     resetReloadFlag() {

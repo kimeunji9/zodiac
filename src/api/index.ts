@@ -9,7 +9,7 @@ const axios = $axios.create({
 // 요청 interceptor
 axios.interceptors.request.use(function (config: any) {
   // 요청을 보내기 전에 수행할 일
-  config.headers['access_token'] = store.state.accessToken || getCookieValue('accessToken')
+  config.headers['Authorization'] = 'Bare ' + store.state.accessToken || getCookieValue('accessToken')
   config.headers['refresh_token'] = store.state.refreshToken || getCookieValue('refreshToken');
 
   // console.log('config', config)

@@ -1,8 +1,8 @@
 <template>
   <div>
-    <div class="pt-2 h-screen border rounded-lg">
+    <div class="pt-2 h-screen border-r rounded-lg">
       <p
-        class="p-4 mb-3 font-bold border-b border-gray-600 cursor-pointer"
+        class="p-4 mb-3 font-bold border-b shadow-md border-gray-300 cursor-pointer"
         @click="$router.push('/')"
       >
         ANS
