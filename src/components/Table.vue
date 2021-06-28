@@ -7,11 +7,10 @@
     </thead>
 
     <tbody>
-      <template v-for="(data, idx) in gridDatas" :key="idx">
-        <tr>
-          <slot name="list" /> <!-- list slot -->
-        </tr>
-      </template>
+      <slot name="list"></slot>
+      <tr v-if="datas.length === 0">
+        <td colspan="30" class="text-center">검색 결과가 없습니다.</td>
+      </tr>
 
       <!-- <tr
         class="border-b border-gray-200 h-10"
@@ -46,9 +45,9 @@ export default {
     console.log('datas', this.datas)
   },
   watch: {
-    datas: function () {
-      this.gridDatas = []
-    }
+    // datas: function () {
+    //   this.gridDatas = []
+    // }
   }
 }
 </script>
