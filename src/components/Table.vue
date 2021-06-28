@@ -1,31 +1,32 @@
 <template>
   <table class="w-full border-collapse">
     <thead>
-      <tr>
-        <th
-          class="border border-gray-200"
-          v-for="(column, idx) in gridColumns"
-          :key="idx"
-        >
-          {{ column.label }}
-        </th>
+      <tr class="border">
+        <slot name="columns" /> <!-- header slot -->
       </tr>
     </thead>
 
     <tbody>
-      <tr
-        class="border-b border-gray-200"
+      <template v-for="(data, idx) in gridDatas" :key="idx">
+        <tr>
+          <slot name="list" /> <!-- list slot -->
+        </tr>
+      </template>
+
+      <!-- <tr
+        class="border-b border-gray-200 h-10"
         v-for="data in gridDatas"
         :key="data.id"
       >
-        <td
-          class="border-b border-gray-200"
-          v-for="(column, idx) in gridColumns"
-          :key="idx"
-        >
-          {{ data[column.prop] }}
+        <td v-for="(column, idx) in gridColumns" :key="idx">
+          <div v-if="column.prop === 'action'" class="flex">
+            <slot name="action"></slot>
+          </div>
+          <div>
+            {{ data[column.prop] }}
+          </div>
         </td>
-      </tr>
+      </tr> -->
     </tbody>
   </table>
 </template>
@@ -34,24 +35,19 @@
 export default {
   name: 'Table',
   props: {
-    columns: Array,
     datas: Array
   },
   data() {
     return {
-      gridColumns: [],
       gridDatas: []
     }
   },
   mounted() {
-    this.gridColumns = this.columns
-    // this.gridDatas = this.datas
-
-    // console.log('gridDatas', this.gridDatas)
+    console.log('datas', this.datas)
   },
   watch: {
     datas: function () {
-      this.gridDatas = this.datas
+      this.gridDatas = []
     }
   }
 }

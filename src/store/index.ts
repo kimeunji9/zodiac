@@ -1,5 +1,5 @@
 import { createStore } from "vuex";
-import { login, logout, refresh } from '@/api/auth';
+import { login, refresh } from '@/api/auth';
 import router from '@/router/index';
 
 export default createStore({
@@ -22,17 +22,20 @@ export default createStore({
       state.accessToken = access_token
       state.refreshToken = refresh_token
     },
-    add_tab(state:any, payload:any) {
+    addTab(state:any, payload:any) {
       if (state.tabList.length === 0) {
-        return state.tabList.push(payload)
+        state.tabList.push(payload)
+        localStorage.setItem('tabList', JSON.stringify(state.tabList))
       } else {
         // 탭이 중복으로 들어가지 않도록
         const duplicatedPath = state.tabList.some((item: any) => {
+          console.log()
           return item.path === payload.path
         })
 
         if (!duplicatedPath) {
           state.tabList.push(payload)
+          localStorage.setItem('tabList', JSON.stringify(state.tabList))
         }
 
         // 기사작성 탭이 선택되어있을 경우 해제
@@ -43,10 +46,16 @@ export default createStore({
         })
       }
     },
-    delete_tab(state, payload) {
+    deleteTab(state, payload) {
       const { idx, item } = payload
 
       state.tabList.splice(idx, 1)
+      
+      // localStorage에 있는 탭 리스트 항목 삭제
+      const localTabList = JSON.parse(localStorage.getItem('tabList') || '[]')
+      
+      localTabList.splice(idx, 1)
+      localStorage.setItem('tabList', JSON.stringify(localTabList))
 
       // writeList 삭제
       state.writeList.forEach((listItem: any, idx: number) => {
@@ -81,9 +90,10 @@ export default createStore({
         router.push({ name: 'Main' })
       }
     },
-    add_write_tab(state, payload: any) {
+    addWriteTab(state, payload: any) {
       payload.meta.active = true
       state.tabList.push(payload)
+      localStorage.setItem('tabList', JSON.stringify(state.tabList))
 
       // 마지막으로 클릭한 기사작성 메뉴 탭만 활성화되도록
       state.tabList.forEach((menu: any) => {
@@ -92,15 +102,7 @@ export default createStore({
         }
       })
     },
-    create_write_list(state, payload) {
-      // id값이 중복되는 것은 덮어씌우기
-      if (state.writeList.length) {
-        state.writeList.forEach((item: any, idx: number) => {
-          if (item.id === payload.id) {
-            state.writeList.splice(idx, 1)
-          }
-        })
-      }
+    createWriteList(state, payload) {
       state.writeList.push(payload)
       ++state.count
     },

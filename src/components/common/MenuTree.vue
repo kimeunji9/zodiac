@@ -109,7 +109,7 @@ export default {
     addTab(menu) {
       if (menu.children) return
 
-      this.$store.commit('add_tab', menu)
+      this.$store.commit('addTab', menu)
     },
     // menu 활성화 토글
     toggleActiveMenu(menu) {
@@ -131,20 +131,19 @@ export default {
     addArticle(e, menu) {
       let writeId = 1
       const writeList = this.$store.state.writeList
-      let writeObj = {}
 
       if (writeList.length !== 0) {
-        // writeList의 마지막 요소의 id 값에 1을 더함 (맨 마지막에 있는 값으로 id값을 올리고 내리고)
+        // writeList의 마지막 요소의 id 값에 1을 더함 (맨 마지막의 id값으로 router의 값을 올리고 내리고)
         writeId = writeList[writeList.length - 1].id + 1
       }
 
-      writeObj = {
+      let writeObj = {
         id: writeId,
         data: {}
       }
 
       // 탭이 생길때마다 생성된 탭에 해당되는 컨텐츠를 넣을 obj 만들어서 push
-      this.$store.commit('create_write_list', writeObj)
+      this.$store.commit('createWriteList', writeObj)
 
       // 생성된 메뉴가 독립적으로 움직일 수 있도록
       let obj = _.cloneDeep(menu)
@@ -156,10 +155,10 @@ export default {
       this.toggleActiveMenu(menu)
 
       // 탭 생성
-      this.$store.commit('add_write_tab', obj)
+      this.$store.commit('addWriteTab', obj)
 
-      // 라우터 이동
-      // this.$router.push({ name: 'Write', params: { id: writeId } })
+      // 라우터 이동 (새로 생성됬을때 바로 라우터로 이동될 수 있도록)
+      this.$router.push({ name: 'Write', params: { id: writeId } })
     }
   }
 }

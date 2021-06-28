@@ -64,18 +64,18 @@ export default {
     // ANS 클릭시 선택된 탭 비활성화
   },
   methods: {
-    deleteTab(event, idx, selectedTap) {
+    deleteTab(event, idx, selectedTab) {
       // x 버튼만 클릭되도록
       event.stopPropagation()
 
       const writeList = this.$store.state.writeList
 
-      if (selectedTap.name === 'Write') {
+      if (selectedTab.name === 'Write') {
         let count = 0
 
         // 내용이 있으면 알럿띄움
         const writeItem = writeList.filter((listItem) => {
-          return listItem.id == selectedTap.path.slice(-1)
+          return listItem.id == selectedTab.path.slice(-1)
         })
 
         for (let key in writeItem[0].data) {
@@ -90,17 +90,17 @@ export default {
           )
 
           if (result) {
-            selectedTap.meta.menuActive = false
-            this.$store.commit('delete_tab', { idx: idx, item: selectedTap })
+            selectedTab.meta.menuActive = false
+            this.$store.commit('deleteTab', { idx: idx, item: selectedTab })
           }
         } else {
-          selectedTap.meta.menuActive = false
-          this.$store.commit('delete_tab', { idx: idx, item: selectedTap })
+          selectedTab.meta.menuActive = false
+          this.$store.commit('deleteTab', { idx: idx, item: selectedTab })
         }
       } else {
         // 탭 활성화를 비활성화로 변경
-        selectedTap.meta.active = false
-        this.$store.commit('delete_tab', { idx: idx, item: selectedTap })
+        selectedTab.meta.active = false
+        this.$store.commit('deleteTab', { idx: idx, item: selectedTab })
       }
     },
     selectedTab(tab) {
