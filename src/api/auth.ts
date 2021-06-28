@@ -6,8 +6,8 @@ function login(params: any) {
   return axios.post(`${api}/login`, params)
 }
 
-function refresh(params: any) {
-  return axios.post(`${api}/refresh`, params)
+function refresh(config: { headers: { Authorization: string } } | undefined) {
+  return axios.post(`${api}/refresh`, null, config)
 }
 
 function logout() {

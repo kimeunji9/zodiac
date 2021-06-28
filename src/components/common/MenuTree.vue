@@ -91,8 +91,6 @@ export default {
         this.menuList.push(item)
       }
     })
-
-    console.log('menuList', this.menuList)
   },
   computed: {},
   watch: {
@@ -116,14 +114,12 @@ export default {
     // menu 활성화 토글
     toggleActiveMenu(menu) {
       this.menuList.forEach((item) => {
-        console.log('item', item)
         if (item.name === menu.name) {
           menu.meta.active = true
         } else {
           item.meta.active = false
         }
       })
-      console.log('menu', menu)
     },
     clickMenu(e, menu) {
       this.toggleActiveMenu(menu)
