@@ -1,6 +1,6 @@
 <template>
   <table class="w-full border-collapse">
-    <thead>
+    <thead class="">
       <tr class="border">
         <th v-for="column in columns" :key="column.prop">
           {{ column.label }}

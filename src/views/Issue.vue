@@ -1,15 +1,15 @@
 <template>
   <div>
     <div class="flex py-4">
-      <div>
-        <div class="inline-block">일자</div>
-        <div class="inline-block">달력</div>
-        <button class="border">오늘</button>
-        <input type="checkbox" id="mike" value="Mike" />
-        <label for="mike" class="cursor-pointer">삭제데이터</label>
+      <div class="flex-1">
+        <div class="inline-block mr-4">일자</div>
+        <div class="inline-block mr-4">달력</div>
+        <button class="border p-2 rounded-md mr-4">오늘</button>
+        <input type="checkbox" id="delData" v-model="deletedData" class="mr-1" />
+        <label for="delData" class="cursor-pointer">삭제데이터</label>
       </div>
       <button
-        class="border hover:bg-blue-200"
+        class="border p-2 rounded-md hover:bg-blue-200"
         @click="showCreateIssueModal = true"
       >
         새 이슈
@@ -90,7 +90,8 @@ export default {
         { label: '작성자', prop: 'inputr_id' },
         { label: '액션', prop: 'action' }
       ],
-      issueList: []
+      issueList: [],
+      deletedData: false
     }
   },
   mounted() {
@@ -117,7 +118,7 @@ export default {
   },
   watch: {
     reload: function () {
-      this.test = ''
+      this.deletedData = false
 
       const params = {
         sdate: '2021-01-01',

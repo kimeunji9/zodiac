@@ -112,7 +112,11 @@ export default createStore({
           item.data = {}
         }
       })
-    }
+    },
+    // addTabAfterRefresh(state) {
+    //   const localTabList = JSON.parse(localStorage.getItem('tabList') || '[]')
+    //   state.tabList = localTabList
+    // }
   },
   actions: {
     login({ commit }, payload) {
