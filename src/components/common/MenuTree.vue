@@ -82,7 +82,8 @@ export default {
         'font-weight': 'bold'
       },
       count: 1,
-      obj: ''
+      obj: '',
+      totalMenuList: []
     }
   },
   mounted() {
@@ -91,12 +92,23 @@ export default {
         this.menuList.push(item)
       }
     })
+
+    // 메뉴 탭 활성화를 위해 같은 레벨로 만들어줌
+    this.menuList.forEach(el => {
+      if (el.children) {
+        el.children.forEach(item => {
+          this.totalMenuList.push(item)
+        })
+      } else {
+        this.totalMenuList.push(el)
+      }
+    })
   },
   computed: {},
   watch: {
     // 기사작성 탭이 선택되었을 경우, 기사작성 메뉴 활성화시키기
     $route(to) {
-      this.menuList.forEach(item => {
+      this.totalMenuList.forEach(item => {
         if (item.name === to.name) {
           item.meta.active = true
         } else {
@@ -113,7 +125,7 @@ export default {
     },
     // menu 활성화 토글
     toggleActiveMenu(menu) {
-      this.menuList.forEach((item) => {
+      this.totalMenuList.forEach((item) => {
         if (item.name === menu.name) {
           menu.meta.active = true
         } else {
